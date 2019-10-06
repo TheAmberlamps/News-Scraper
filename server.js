@@ -35,23 +35,42 @@ mongoose.connect("mongodb://localhost/VoxScrape", {
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
-  // First, we grab the body of the html with axios
+  // First grab the body of the html with axios
   axios.get("http://www.vox.com/").then(function(response) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
+    // Then load that into cheerio and save it to $
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h2 within an article tag, and do the following:
-    $("div h2").each(function(i, element) {
+    // Builds an Article by parsing through the response data
+    $("div.c-entry-box--compact--article").each(function() {
       // Save an empty result object
       var result = {};
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
-        .children("a")
+        .children("div")
+        .children("h2")
         .text();
       result.link = $(this)
         .children("a")
         .attr("href");
+      result.summary = $(this)
+        .children("div")
+        .children("p.p-dek")
+        .text();
+      if (result.summary === "") {
+        result.summary = "No summary available.";
+      }
+      result.image = $(this)
+        .children("a")
+        .children("picture")
+        .children("img")
+        .attr("srcset");
+      // Doesn't work because when the scrape doesn't find an image at this location it's because it --- nevermind, just "solved" that problem. I replaced the empty quotations with undefined. Next step is to write either a switch statement or an elseif to locate the images in the differently formatted stories (those that also lack a summary)
+
+      // Consider adding authors and publications dates to scraped articles
+      if (result.image === undefined) {
+        result.image = "No image available.";
+      }
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
