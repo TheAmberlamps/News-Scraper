@@ -64,12 +64,17 @@ app.get("/scrape", function(req, res) {
         .children("a")
         .children("picture")
         .children("img")
-        .attr("srcset");
-      // Doesn't work because when the scrape doesn't find an image at this location it's because it --- nevermind, just "solved" that problem. I replaced the empty quotations with undefined. Next step is to write either a switch statement or an elseif to locate the images in the differently formatted stories (those that also lack a summary)
+        .attr("src");
 
-      // Consider adding authors and publications dates to scraped articles
+      // Ok, images are being scraped properly unless they're in compact articles. Adding authors and publications dates to scraped articles is the next step.
+
       if (result.image === undefined) {
-        result.image = "No image available.";
+        result.image = "No image found.";
+        // result.image = $(this)
+        //   .children("a")
+        //   .children("div.c-entry-box--compact__image")
+        //   .children("img")
+        //   .attr("src");
       }
 
       // Create a new Article using the `result` object built from scraping
