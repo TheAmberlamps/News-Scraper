@@ -78,7 +78,7 @@ app.get("/scrape", function(req, res) {
         //   .children("img")
         //   .attr("src");
       }
-      result.author = $(this);
+      // result.author = $(this);
 
       // A lot of children here to be wrangled. Invest time into handlebars and deploying this before spending more time on increased functionality, you jerk. It's more important to have a working site than it is to have a working site with wide functionality than it is to have a good-looking working site with wide functionality.
 
