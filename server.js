@@ -37,7 +37,7 @@ mongoose.connect("mongodb://localhost/VoxScrape", {
 
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the Vox website
 app.get("/scrape", function(req, res) {
   // First grab the body of the html with axios
   axios.get("http://www.vox.com/").then(function(response) {
@@ -82,7 +82,7 @@ app.get("/scrape", function(req, res) {
 
       // A lot of children here to be wrangled. Invest time into handlebars and deploying this before spending more time on increased functionality, you jerk. It's more important to have a working site than it is to have a working site with wide functionality than it is to have a good-looking working site with wide functionality.
 
-      // Get this fucking project up to MVP and deploy it before you spend hours unravelling spaghetti code FFS. Go looking for authors and publication dates after you get things running at their most basic, and in this case populating the site with handlebars objects.
+      // Get this project up to MVP and deploy it before you spend hours unravelling spaghetti code FFS. Go looking for authors and publication dates AFTER you get things running at their most basic, and in this case populating the site with handlebars objects.
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
