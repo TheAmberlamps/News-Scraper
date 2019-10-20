@@ -1,17 +1,17 @@
     <div id="wrapper">
-      <h1>Note Scraper</h1>
+      <h1>Vox News Scraper</h1>
       <ul>
         <br />
       {{#each article}}
-        <p data-id={{id}}>{{title}}</p>
+      <li>
+        <h3><p data-id={{id}}> {{title}} </p></h3>
         <br />
-        {{link}}
-        <br />
-        {{summary}}
+        <a href={{link}}> {{summary}} </a>
         <br />
         <img src={{image}}>
+      <div id="notes"></div>
+      </li>
       {{/each}}
         <br />
       </ul>
-      <div id="notes"></div>
     </div>
