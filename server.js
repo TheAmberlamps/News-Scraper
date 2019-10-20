@@ -1,7 +1,7 @@
 var express = require("express");
+var exphbs = require("express-handlebars");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var exphbs = require("express-handlebars");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -36,6 +36,22 @@ mongoose.connect("mongodb://localhost/VoxScrape", {
 });
 
 // Routes
+
+// A route to populate the page with handlebar objects built from scraped articles
+
+app.get("/", function(req, res) {
+  db.Article.find()
+    .sort({ id: -1 })
+    .then(function(dbArticle) {
+      var hbarsObj = {
+        article: dbArticle
+      };
+      // log the result server side
+      console.log(hbarsObj);
+      // Render handlebars, pass in the hbarsObj
+      res.render("index", hbarsObj);
+    });
+});
 
 // A GET route for scraping the Vox website
 app.get("/scrape", function(req, res) {
