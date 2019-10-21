@@ -2,6 +2,7 @@ var express = require("express");
 var exphbs = require("express-handlebars");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var path = require("path");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -73,32 +74,33 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
+      result.author = $(this)
+        .children("div.c-entry-box--compact__body")
+        .children("div.c-byline")
+        .children("span.c-byline-wrapper")
+        .children("span.c-byline__item")
+        .children("a")
+        .children("span.c-byline__author-name")
+        .text();
       result.summary = $(this)
         .children("div")
         .children("p.p-dek")
         .text();
+      result.image = $(this)
+        .children("a.c-entry-box--compact__image-wrapper")
+        .children("picture.c-picture")
+        .children("img")
+        .attr("src");
       if (result.summary === "") {
         result.summary = "No summary available.";
       }
-      result.image = $(this)
-        .children("a")
-        .children("picture")
-        .children("img")
-        .attr("src");
-      // Ok, images are being scraped properly unless they're in compact articles. Adding authors and publications dates to scraped articles is the next step. OR IS IT
       if (result.image === undefined) {
-        result.image = "No image found.";
-        // result.image = $(this)
-        //   .children("a")
-        //   .children("div.c-entry-box--compact__image")
-        //   .children("img")
-        //   .attr("src");
+        result.image = $(this)
+          .children("a")
+          .children("div.c-entry-box--compact__image")
+          .children("img.c-dynamic-image.lazy-image.lazy-loaded")
+          .attr("src");
       }
-      // result.author = $(this);
-
-      // A lot of children here to be wrangled. Invest time into handlebars and deploying this before spending more time on increased functionality, you jerk. It's more important to have a working site than it is to have a working site with wide functionality than it is to have a good-looking working site with wide functionality.
-
-      // Get this project up to MVP and deploy it before you spend hours unravelling spaghetti code FFS. Go looking for authors and publication dates AFTER you get things running at their most basic, and in this case populating the site with handlebars objects.
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)

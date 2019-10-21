@@ -21,6 +21,11 @@ var ArticleSchema = new Schema({
     type: String
     // required: true
   },
+  // Author is of type String
+  author: {
+    type: String,
+    required: true
+  },
   // Image is of type String
   image: {
     type: String
