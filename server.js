@@ -92,25 +92,32 @@ app.get("/scrape", function(req, res) {
         .children("img")
         .attr("src");
       if (result.summary === "") {
-        result.summary = "No summary available.";
+        result.summary = "Click here to read more.";
       }
       if (result.image === undefined) {
         result.image = $(this)
-          .children("a")
+          .children("a.c-entry-box--compact__image-wrapper")
           .children("div.c-entry-box--compact__image")
-          .children("img.c-dynamic-image.lazy-image.lazy-loaded")
+          .children("img.c-dynamic-image")
           .attr("src");
+        console.log("This is:" + result.image);
+        if (
+          result.image ===
+          "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs"
+        ) {
+          result.image = "Image not found";
+        }
       }
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
           // View the added result in the console
-          console.log(dbArticle);
+          // console.log(dbArticle);
         })
         .catch(function(err) {
           // If an error occurred, log it
-          console.log("Article creation error: " + err);
+          // console.log("Article creation error: " + err);
         });
     });
 
