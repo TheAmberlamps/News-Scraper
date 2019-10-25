@@ -1,5 +1,6 @@
 body {
   background-color: #f2f6d0;
+  font-family: "Big Shoulders Text", cursive;
 }
 #wrapper {
   width: 960px;
@@ -14,8 +15,10 @@ body {
   height: 700px;
 }
 #notes {
-  float: right;
-  width: 30%;
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 textarea,
 input {
@@ -35,8 +38,8 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 33%;
-  height: 33%;
+  width: 43%;
+  height: 43%;
   padding: 10px;
 }
 #anchorStyle {
@@ -58,6 +61,8 @@ h1 {
 }
 h3 {
   text-align: center;
+  /* font-family: "Francois One", sans-serif; */
+  font-family: "Archivo Black", sans-serif;
 }
 .seperator {
   text-align: center;

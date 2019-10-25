@@ -32,7 +32,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "/public")));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/VoxScrape", {
+var MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true
 });
 
@@ -108,7 +111,7 @@ app.get("/scrape", function(req, res) {
           result.image = "Image not found";
         }
       }
-
+      console.log("Result: " + result);
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {

@@ -42,6 +42,9 @@ $(document).on("click", "p", function() {
       $("#notes").append(
         "<button data-id='" + data._id + "' id='savenote'>Save Note</button>"
       );
+      $("#notes").append(
+        "<button data-id='" + data._id + "' id='cancel'>Cancel</button>"
+      );
 
       // If there's a note in the article
       if (data.note) {
@@ -78,6 +81,12 @@ $(document).on("click", "#savenote", function() {
     });
 
   // Also, remove the values entered in the input and textarea for note entry
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
+});
+
+$(document).on("click", "#cancel", function() {
+  $("#notes").empty();
   $("#titleinput").val("");
   $("#bodyinput").val("");
 });
